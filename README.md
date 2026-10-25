@@ -79,25 +79,25 @@ npm run build
 
 ## Frontend и backend на разных доменах
 
-Например, frontend доступен по `https://app.example.com`, backend —
-по `https://api.example.com`.
+Текущий frontend: `https://lifestatsfront.hostless.site`, backend:
+`https://lifestatsback.hostless.app`.
 
 На хостинге frontend задайте переменную **до сборки**:
 
 ```dotenv
-API_BASE_URL=https://api.example.com
+VITE_API_BASE_URL=https://lifestatsback.hostless.app
 ```
 
 Указывайте адрес backend без `/api`: код сам добавит `/api/health`.
+Vite передаёт `VITE_API_BASE_URL` в frontend по стандартному префиксу `VITE_`.
 Затем выполните `npm ci` и `npm run build` из папки `frontend`.
 Переменная встраивается в JavaScript при сборке; после смены адреса
-нужно пересобрать и опубликовать frontend. `VITE_*` видны посетителям,
-поэтому в них нельзя хранить секреты.
+нужно пересобрать и опубликовать frontend. Адрес API виден посетителям.
 
 На хостинге backend задайте адрес frontend:
 
 ```dotenv
-CORS_ALLOW_ORIGINS=https://app.example.com
+CORS_ALLOW_ORIGINS=https://lifestatsfront.hostless.site
 ```
 
 Для нескольких адресов перечислите их через запятую. Указывайте только
@@ -107,7 +107,7 @@ origin: протокол, домен и порт при необходимост
 Оба публичных адреса должны использовать HTTPS.
 
 Вместо переменных хостинга можно создать `frontend/.env.production`
-с `API_BASE_URL` для сборки и `backend/.env` с `CORS_ALLOW_ORIGINS`
+с `VITE_API_BASE_URL` для сборки и `backend/.env` с `CORS_ALLOW_ORIGINS`
 для сервера. Backend загружает свой `.env` автоматически, а переменные
 окружения хостинга имеют приоритет. Эти файлы исключены из Git;
 примеры настроек находятся в `.env.example` каждой папки.
@@ -115,13 +115,19 @@ origin: протокол, домен и порт при необходимост
 Для локального подключения напрямую, без прокси, создайте `frontend/.env.local`:
 
 ```dotenv
-API_BASE_URL=http://127.0.0.1:8000
+VITE_API_BASE_URL=http://127.0.0.1:8000
 ```
 
 Перезапустите Vite после изменения env-файла. Локальные origins
 `http://127.0.0.1:5173` и `http://localhost:5173` разрешены backend по умолчанию,
-если `CORS_ALLOW_ORIGINS` не задана. Пустая `API_BASE_URL` сохраняет
+если `CORS_ALLOW_ORIGINS` не задана. Пустая `VITE_API_BASE_URL` сохраняет
 прежнюю работу через `/api` и прокси Vite.
+
+Если после деплоя API недоступен, в DevTools → Network проверьте Request URL:
+он должен быть `https://lifestatsback.hostless.app/api/health`.
+Если запрос идёт на домен frontend, адрес backend не попал в сборку:
+проверьте build-time переменную, выполните новую сборку и опубликуйте её.
+Простой перезапуск сервиса раздачи статики адрес в JavaScript не изменит.
 
 Подробнее: [env-переменные Vite](https://vite.dev/guide/env-and-mode),
 [CORS в FastAPI](https://fastapi.tiangolo.com/tutorial/cors/).

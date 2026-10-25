@@ -14,7 +14,7 @@ async function checkConnection() {
     await getHealth()
     connected.value = true
   } catch {
-    error.value = 'API недоступен. Проверьте, что сервер запущен на порту 8000.'
+    error.value = 'API недоступен.'
   } finally {
     loading.value = false
   }

@@ -1,4 +1,4 @@
-const API_BASE_URL = (import.meta.env.API_BASE_URL || '').trim().replace(/\/+$/, '')
+const API_BASE_URL = (import.meta.env.VITE_API_BASE_URL || '').trim().replace(/\/+$/, '')
 
 export async function getHealth() {
   const response = await fetch(`${API_BASE_URL}/api/health`, {
