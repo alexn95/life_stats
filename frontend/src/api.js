@@ -1,5 +1,7 @@
+const API_BASE_URL = (import.meta.env.VITE_API_BASE_URL || '').trim().replace(/\/+$/, '')
+
 export async function getHealth() {
-  const response = await fetch('/api/health', {
+  const response = await fetch(`${API_BASE_URL}/api/health`, {
     signal: AbortSignal.timeout(5000),
   })
   if (!response.ok) {
