@@ -5,15 +5,16 @@
 ## Структура
 
 ```text
-backend/app/
-  main.py          # приложение FastAPI
-  api/routes.py    # маршруты API
+backend/
+  main.py          # запуск: python -m backend.main
+  requirements.txt # зависимости backend
+  app/
+    main.py        # приложение FastAPI
+    api/routes.py  # маршруты API
 frontend/
   src/App.vue      # стартовая страница и проверка API
   src/api.js       # HTTP-запросы
   vite.config.js   # прокси /api на FastAPI
-main.py            # запуск backend из корня проекта или PyCharm
-requirements.txt
 ```
 
 ## Запуск
@@ -26,8 +27,8 @@ Backend, первый терминал (macOS/Linux):
 ```bash
 python3 -m venv .venv  # только если окружение ещё не создано
 source .venv/bin/activate
-python -m pip install -r requirements.txt
-python main.py
+python -m pip install -r backend/requirements.txt
+python -m backend.main
 ```
 
 Frontend, второй терминал:
@@ -44,6 +45,14 @@ npm run dev
 
 Vite перенаправляет запросы `/api` к backend на порт 8000.
 При запуске обоих серверов на странице появляется «API подключён».
+
+Backend запускается **из корня проекта** как Python-модуль. В PyCharm
+выберите Module name: `backend.main`, Working directory: корень проекта.
+
+ASGI-приложение — `backend.main:app` (также подходит `backend.app.main:app`).
+При наличии `PORT` сервер слушает `0.0.0.0:$PORT` без autoreload;
+без этой переменной сохраняется локальный режим на `127.0.0.1:8000`.
+Новые зависимости добавляйте в `backend/requirements.txt`.
 
 ## Сборка frontend
 
