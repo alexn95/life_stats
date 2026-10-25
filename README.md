@@ -6,7 +6,7 @@
 
 ```text
 backend/
-  main.py          # запуск: python -m backend.main
+  main.py          # запуск из backend: python main.py
   requirements.txt # зависимости backend
   app/
     main.py        # приложение FastAPI
@@ -20,15 +20,17 @@ frontend/
 ## Запуск
 
 Требуются Python 3.10+ и Node.js 20.19+ (для Node 22 — 22.12+).
-Все команды ниже выполняются из корня проекта, если не указано иначе.
+Откройте два терминала из корня проекта. Backend запускается из папки
+`backend`, frontend — из `frontend`.
 
 Backend, первый терминал (macOS/Linux):
 
 ```bash
-python3 -m venv .venv  # только если окружение ещё не создано
-source .venv/bin/activate
-python -m pip install -r backend/requirements.txt
-python -m backend.main
+cd backend
+python3 -m venv ../.venv  # только если окружение ещё не создано
+source ../.venv/bin/activate
+python -m pip install -r requirements.txt
+python main.py
 ```
 
 Frontend, второй терминал:
@@ -46,18 +48,21 @@ npm run dev
 Vite перенаправляет запросы `/api` к backend на порт 8000.
 При запуске обоих серверов на странице появляется «API подключён».
 
-Backend запускается **из корня проекта** как Python-модуль. В PyCharm
-выберите Module name: `backend.main`, Working directory: корень проекта.
+Виртуальное окружение `.venv` хранится в корне проекта.
+В PyCharm выберите Script path: `backend/main.py`, Working directory: папка
+`backend`, интерпретатор: `.venv/bin/python` из корня проекта.
 
-ASGI-приложение — `backend.main:app` (также подходит `backend.app.main:app`).
+ASGI-приложение при рабочем каталоге `backend` — `main:app`
+(также подходит `app.main:app`).
 При наличии `PORT` сервер слушает `0.0.0.0:$PORT` без autoreload;
 без этой переменной сохраняется локальный режим на `127.0.0.1:8000`.
 Новые зависимости добавляйте в `backend/requirements.txt`.
 
 ## Сборка frontend
 
+Из папки `frontend`:
+
 ```bash
-cd frontend
 npm run build
 ```
 
