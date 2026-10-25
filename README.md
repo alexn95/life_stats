@@ -23,11 +23,16 @@ frontend/
 Откройте два терминала из корня проекта. Backend запускается из папки
 `backend`, frontend — из `frontend`.
 
+Если `.venv` ещё нет, один раз создайте окружение из корня проекта:
+
+```bash
+python3 -m venv .venv
+```
+
 Backend, первый терминал (macOS/Linux):
 
 ```bash
 cd backend
-python3 -m venv ../.venv  # только если окружение ещё не создано
 source ../.venv/bin/activate
 python -m pip install -r requirements.txt
 python main.py
