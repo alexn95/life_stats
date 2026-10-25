@@ -85,7 +85,7 @@ npm run build
 На хостинге frontend задайте переменную **до сборки**:
 
 ```dotenv
-VITE_API_BASE_URL=https://api.example.com
+API_BASE_URL=https://api.example.com
 ```
 
 Указывайте адрес backend без `/api`: код сам добавит `/api/health`.
@@ -107,7 +107,7 @@ origin: протокол, домен и порт при необходимост
 Оба публичных адреса должны использовать HTTPS.
 
 Вместо переменных хостинга можно создать `frontend/.env.production`
-с `VITE_API_BASE_URL` для сборки и `backend/.env` с `CORS_ALLOW_ORIGINS`
+с `API_BASE_URL` для сборки и `backend/.env` с `CORS_ALLOW_ORIGINS`
 для сервера. Backend загружает свой `.env` автоматически, а переменные
 окружения хостинга имеют приоритет. Эти файлы исключены из Git;
 примеры настроек находятся в `.env.example` каждой папки.
@@ -115,12 +115,12 @@ origin: протокол, домен и порт при необходимост
 Для локального подключения напрямую, без прокси, создайте `frontend/.env.local`:
 
 ```dotenv
-VITE_API_BASE_URL=http://127.0.0.1:8000
+API_BASE_URL=http://127.0.0.1:8000
 ```
 
 Перезапустите Vite после изменения env-файла. Локальные origins
 `http://127.0.0.1:5173` и `http://localhost:5173` разрешены backend по умолчанию,
-если `CORS_ALLOW_ORIGINS` не задана. Пустая `VITE_API_BASE_URL` сохраняет
+если `CORS_ALLOW_ORIGINS` не задана. Пустая `API_BASE_URL` сохраняет
 прежнюю работу через `/api` и прокси Vite.
 
 Подробнее: [env-переменные Vite](https://vite.dev/guide/env-and-mode),
